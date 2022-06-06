@@ -1,0 +1,31 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[packages]
+# web scraping
+requests = "*"
+beautifulsoup4 = "*"
+# REST
+fastapi = "*"
+marshmallow = "*"
+# DB + ORM
+psycopg2-binary = "*"
+sqlalchemy = "*"
+# utils
+python-dateutil = "*"
+
+[dev-packages]
+pytest = "*"
+pytest-cov = "*"
+pytest-asyncio = "*"
+mypy = "*"
+flake8 = "*"
+autoflake = "*"
+pre-commit = "*"
+isort = "*"
+black= "*"
+
+[requires]
+python_version = "3.8"
