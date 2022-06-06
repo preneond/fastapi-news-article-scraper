@@ -1,6 +1,6 @@
 import re
 
-from src.core.news import BbcScraper, IdnesScraper, IhnedScraper, NewsScraper
+from src.tasks.news import BbcScraper, IdnesScraper, IhnedScraper, NewsScraper
 
 
 def check_provider(provider: NewsScraper) -> None:

@@ -1,7 +1,8 @@
 from typing import List
 
-from src.core import db, news, scraper
+from src.core import db
 from src.core.model import Article
+from src.tasks import news, scraper
 
 
 class FakeScraper(news.NewsScraper):

@@ -3,7 +3,7 @@ Web scraping service.
 """
 import logging
 
-from src.core.news import BbcScraper, IdnesScraper, IhnedScraper
+from src.tasks.news import BbcScraper, IdnesScraper, IhnedScraper
 
 logger = logging.getLogger(__name__)
 SCRAPERS = [IdnesScraper(), IhnedScraper(), BbcScraper()]

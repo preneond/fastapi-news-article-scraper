@@ -1,6 +1,3 @@
-"""
-ORM definitions.
-"""
 from datetime import datetime
 
 from sqlalchemy import TIMESTAMP, Column, Integer, String, func

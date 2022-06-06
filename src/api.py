@@ -40,6 +40,11 @@ app = FastAPI(
 )
 
 
+@app.on_event("startup")
+async def startup_event() -> None:
+    db.create_empty_db()
+
+
 @app.on_event("shutdown")
 async def shutdown_event() -> None:
     db.session.remove()
