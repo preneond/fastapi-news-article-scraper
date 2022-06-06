@@ -1,13 +1,15 @@
 from typing import List
 
-from app import scraper, db, news
-from app.model import Article
+from src.core import db, news, scraper
+from src.core.model import Article
 
 
 class FakeScraper(news.NewsScraper):
     def get_headers(self) -> List[news.Article]:
-        return [news.Article(header='a', url='some-url'),
-                news.Article(header='b', url='some-url')]
+        return [
+            news.Article(header="a", url="some-url"),
+            news.Article(header="b", url="some-url"),
+        ]
 
 
 class FailingScraper(news.NewsScraper):
@@ -15,7 +17,7 @@ class FailingScraper(news.NewsScraper):
         raise Exception("Error when scraping")
 
 
-def test_scrape_news():
+def test_scrape_news() -> None:
     # mock news scrapers and clean DB
     scraper.SCRAPERS = [FakeScraper(), FailingScraper()]
     db.create_empty_db()
@@ -27,5 +29,5 @@ def test_scrape_news():
     articles = db.session.query(Article).all()
     assert len(articles) == 1
     article = articles[0]
-    assert article.header == 'a'
-    assert article.url == 'some-url'
+    assert article.header == "a"
+    assert article.url == "some-url"

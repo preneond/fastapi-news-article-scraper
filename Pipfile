@@ -10,6 +10,7 @@ beautifulsoup4 = "*"
 # REST
 fastapi = "*"
 marshmallow = "*"
+uvicorn = "*"
 # DB + ORM
 psycopg2-binary = "*"
 sqlalchemy = "*"
@@ -26,6 +27,7 @@ autoflake = "*"
 pre-commit = "*"
 isort = "*"
 black= "*"
+types-PyYaml = "*"
 
 [requires]
 python_version = "3.8"

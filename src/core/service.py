@@ -4,7 +4,7 @@ Service layer.
 import logging
 from typing import List
 
-from app.model import Article
+from src.core.model import Article
 
 logger = logging.getLogger(__name__)
 

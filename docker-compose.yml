@@ -1,11 +1,17 @@
-version: '3.4'
+version: '3.9'
 services:
   postgres:
-    image: postgres:10
+    image: postgres:14.2
     ports:
-      - 5432:5432
+      - "5432:5432"
     restart: on-failure
     environment:
       POSTGRES_DB: app
       POSTGRES_USER: app
       POSTGRES_PASSWORD: app
+  app:
+    build: .
+    depends_on:
+      - postgres
+    ports:
+      - "80:80"
