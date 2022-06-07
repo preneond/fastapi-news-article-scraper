@@ -1,4 +1,4 @@
-# Homework
+# Article Web Scraper
 
 Application that periodically scrape news servers and store headers and URL of its articles.
 The application stores the data into its own DB, and it publishes a REST API which will allow for browsing 
@@ -74,7 +74,7 @@ curl --request POST 'http://localhost:5000/articles/find' \
             ]
         }
         
-# Frameworks and libraries for implementation
+## Frameworks and libraries for implementation
 - web scraping: `requests`
 - ORM: `sqlalchemy`
 - web API: `fastapi`
