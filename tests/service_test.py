@@ -1,4 +1,4 @@
-from src.core import db, service
+from src import db, service
 from src.core.model import Article
 
 

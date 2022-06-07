@@ -1,22 +1,3 @@
-"""
-REST API.
-"""
-
-# from flask import Flask, jsonify
-
-# app = Flask(__name__)
-
-#
-# # noinspection PyUnusedLocal
-# @app.teardown_request
-# def remove_db_session(exception=None):
-#     db.session.remove()
-#
-#
-
-#
-# if __name__ == '__main__':
-#     app.run(debug=True)
 from typing import List
 
 import uvicorn
@@ -26,9 +7,9 @@ from fastapi.responses import JSONResponse
 from starlette import status
 from starlette.requests import Request
 
+from src import db, responses
 from src.config.settings import get_settings
-from src.core import db, responses
-from src.core.service import get_articles_with_keywords
+from src.service import get_articles_with_keywords
 
 settings = get_settings()
 

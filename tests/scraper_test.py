@@ -1,6 +1,6 @@
 from typing import List
 
-from src.core import db
+from src import db
 from src.core.model import Article
 from src.tasks import news, scraper
 
