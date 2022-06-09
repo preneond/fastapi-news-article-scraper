@@ -4,6 +4,7 @@ DB definitions.
 
 from typing import Union
 
+from fastapi import Request
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, scoped_session, sessionmaker
 
@@ -23,3 +24,7 @@ def create_empty_db() -> None:
 
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
+
+
+def get_db_session(request: Request) -> Session:
+    return request.app.state.db_session

@@ -1,15 +1,19 @@
 import logging
 
 import uvicorn
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi_utils.tasks import repeat_every
+from sqlalchemy.orm import Session
 from starlette import status
 from starlette.requests import Request
 
-from src import db, responses
+from src import db, responses, schemas
 from src.config.settings import get_settings
+from src.db import get_db_session
+from src.schemas import FindArticleRequest
+from src.service import get_articles_with_keywords
 from src.tasks import scraper
 
 settings = get_settings()
@@ -43,21 +47,19 @@ async def periodic_article_fetcher_event() -> None:
         scraper.scrape_news(sc, app.state.db_session())
 
 
-@app.post("/articles/find")
-async def find_articles() -> JSONResponse:
+@app.post("/articles/find", response_model=schemas.ArticleListResponse)
+async def find_articles(
+    data_in: FindArticleRequest, db_session: Session = Depends(get_db_session)
+) -> JSONResponse:
     """
     If query in request.json is not valid, returns HTTP 422.
     If query is valid, returns result with articles matching given keywords.
     """
-    # todo: implement validation of data received in request.json, get keywords from the query
-    # keywords: List[str] = []
-    # todo: implement searching for articles by keywords in app.service.get_articles_with_keywords() and
-    #  use it below. If no keywords were given, should return an empty list.
     return responses.success_response(
         {
             "articles": [
-                # {"text": i.header, "url": i.url}
-                # for i in get_articles_with_keywords(keywords)
+                {"text": i.header, "url": i.url}
+                for i in get_articles_with_keywords(data_in.keywords, db_session)
             ]
         }
     )

@@ -31,11 +31,12 @@ def get_articles_with_keywords(
     :return: article list with given keywords present
     """
     articles = db_session.query(ArticleOrm).all()
+    keywords_lowercase = list(map(str.lower, keywords))
 
     return [
         article
         for article in articles
-        if not set(article.header.split(" ")).isdisjoint(keywords)
+        if not set(article.header.lower().split()).isdisjoint(keywords_lowercase)
     ]
 
 
