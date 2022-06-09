@@ -1,0 +1,34 @@
+# server environment configuration
+uvicorn:
+  host: 0.0.0.0
+  port: 80
+  log_level: debug
+  reload: true
+db_connection:
+  postgres_user: app
+  postgres_password: app
+#  IMPORTANT!!! Uncomment following line when you are running the database in docker ONLY ->
+#  postgres_server: localhost
+  postgres_server: database # causes an error (could not translate host name "database" to address) when running locally ->  replace with localhost
+  postgres_database: app
+api_config:
+  title: Simple FastAPI Web Article Scraper
+  description: API Documentation for Simple FastAPI Web Article Scraper
+  version: v1
+  docs_url: /docs
+news_config:
+  bbc:
+    url: https://www.bbc.co.uk/news
+    article_header_tags:
+      - h1
+      - h2
+      - h3
+      - h4
+  idnes:
+    url: https://www.idnes.cz
+    article_header_tags:
+      - h3
+  ihned:
+    url: https://zpravy.hn.cz
+    article_header_tags:
+      - h3

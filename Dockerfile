@@ -1,19 +1,19 @@
+# set line break type to LF
 FROM tiangolo/uvicorn-gunicorn-fastapi:python3.8
 
 MAINTAINER ondra.prenek@gmail.com
 
+COPY requirements.txt /app
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
+
 COPY ./src /app/src
-COPY Pipfile /app
-COPY Pipfile.lock /app
 COPY appsettings.yaml /app
 
-WORKDIR /app
-ENV PYTHONPATH=/app
-
-RUN pip install --upgrade pip
-RUN pip install pipenv
-RUN pipenv install --deploy
+ENV PYTHONPATH "${PYTHONPATH}:/app"
 
 EXPOSE 80
 
-CMD ["uvicorn", "src.api:app"]
+WORKDIR /app
+
+# Sleep few seconds to wait for DB to init
+CMD sleep 5 && python src/api.py
