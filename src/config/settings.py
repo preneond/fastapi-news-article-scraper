@@ -1,9 +1,10 @@
 from enum import Enum
 from functools import lru_cache
-from typing import Any
+from typing import Any, List
 
 import yaml
 from pydantic import BaseSettings, Field, PostgresDsn
+from pydantic.networks import HttpUrl
 
 
 class LogLevels(str, Enum):
@@ -53,13 +54,29 @@ class DatabaseConnectionSettings(BaseSettings):
         )
 
 
+class NewsServerSettings(BaseSettings):
+    url: HttpUrl
+    article_header_tags: List[str]
+
+
+class NewsConfigSettings(BaseSettings):
+    """Settings for Article News Server"""
+
+    bbc: NewsServerSettings
+    idnes: NewsServerSettings
+    ihned: NewsServerSettings
+
+
 class Settings(BaseSettings):
     uvicorn: UvicornSettings
     db_connection: DatabaseConnectionSettings
+    news_config: NewsConfigSettings
     api_config: ApiConfigSettings
 
 
 def load_from_yaml() -> Any:
+    # uncomment the following line for running the article scraping from src.tasks.scraper
+    # with open("../../appsettings.yaml") as fp:
     with open("appsettings.yaml") as fp:
         config = yaml.safe_load(fp)
     return config

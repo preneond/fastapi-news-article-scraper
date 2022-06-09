@@ -9,6 +9,7 @@ requests = "*"
 beautifulsoup4 = "*"
 # REST
 fastapi = "*"
+fastapi-utils = "*"
 marshmallow = "*"
 uvicorn = "*"
 # DB + ORM
@@ -16,6 +17,8 @@ psycopg2-binary = "*"
 sqlalchemy = "*"
 # utils
 python-dateutil = "*"
+pytest = "*"
+types-requests = "*"
 
 [dev-packages]
 pytest = "*"
@@ -28,6 +31,7 @@ pre-commit = "*"
 isort = "*"
 black= "*"
 types-PyYaml = "*"
+types-requests = "*"
 
 [requires]
 python_version = "3.8"

@@ -6,7 +6,7 @@ from sqlalchemy.orm import declarative_base
 Base = declarative_base()
 
 
-class Article(Base):  # type: ignore
+class ArticleOrm(Base):  # type: ignore
     __tablename__ = "article"
 
     id: int = Column(Integer, primary_key=True)

@@ -3,19 +3,29 @@ Web scraping service.
 """
 import logging
 
-from src.tasks.news import BbcScraper, IdnesScraper, IhnedScraper
+from sqlalchemy.orm import Session
+
+from src import db
+from src.service import save_article_if_new
+from src.tasks.news import BbcScraper, IdnesScraper, IhnedScraper, NewsScraper
 
 logger = logging.getLogger(__name__)
+
 SCRAPERS = [IdnesScraper(), IhnedScraper(), BbcScraper()]
 
 
-def scrape_news() -> None:
+def scrape_news(scraper: NewsScraper, db_session: Session) -> None:
     """Gets articles from news servers and saves new ones into our DB.
     If any scraper fails, it must be logged but continue in operation.
     """
-    for scraper in SCRAPERS:
-        logger.info(f"Scraping news using {type(scraper).__name__}")
-        # todo implement logic using already implemented scrapers and app.service.save_article_if_new()
+    logger.info(f"Scraping news using {type(scraper).__name__}")
+
+    try:
+        article_arr = scraper.get_headers()
+        for article in article_arr:
+            save_article_if_new(article, db_session)
+    except Exception as e:
+        logger.error(f"Scraping Exception:: {e}")
 
 
 if __name__ == "__main__":
@@ -24,4 +34,6 @@ if __name__ == "__main__":
         format="{asctime} {levelname:<8} {name}:{module}:{lineno} - {message}",
         style="{",
     )
-    # todo: implement regular calling of scrape_news()
+    db.create_empty_db()
+    for sc in SCRAPERS:
+        scrape_news(sc, db.session())

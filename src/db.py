@@ -7,10 +7,13 @@ from typing import Union
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, scoped_session, sessionmaker
 
+from src.config.settings import get_settings
 from src.models import Base
 
-engine = create_engine("postgresql://app:app@localhost/app")
-session: Union[Session, scoped_session] = scoped_session(sessionmaker(bind=engine))
+settings = get_settings()
+engine = create_engine(settings.db_connection.postgres_uri)
+session_factory = sessionmaker(bind=engine)
+session: Union[Session, scoped_session] = scoped_session(session_factory)
 
 
 def create_empty_db() -> None:
