@@ -11,13 +11,19 @@ class ServiceBaseResponse(BaseModel):
 
 
 class FindArticleRequest(BaseModel):
+    """Request Body Model of /find/articles request"""
+
     keywords: List[str]
 
 
 class ArticleItemResponse(BaseModel):
+    """ArticleItem response model in ArticleListResponse"""
+
     text: str
     url: HttpUrl
 
 
 class ArticleListResponse(ServiceBaseResponse):
+    """List of Articles that are returned for /find/articles request"""
+
     articles: List[ArticleItemResponse]

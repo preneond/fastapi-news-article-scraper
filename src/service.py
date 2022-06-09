@@ -13,6 +13,12 @@ logger = logging.getLogger(__name__)
 
 
 def _is_article_new(article: Article, db_session: Session) -> bool:
+    """
+    Checks whether the article with the given url already exists in database or not
+    :param article: Article to check
+    :param db_session: DB session instance
+    :return: flag if the article exists
+    """
     return (
         db_session.query(ArticleOrm).filter(ArticleOrm.url == article.url).first()
         is None

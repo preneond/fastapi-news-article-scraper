@@ -27,4 +27,9 @@ def create_empty_db() -> None:
 
 
 def get_db_session(request: Request) -> Session:
+    """
+    Returns a DB session from app state - works in REST API only
+    :param request: Request
+    :return: DB session
+    """
     return request.app.state.db_session

@@ -28,6 +28,9 @@ app = FastAPI(
 
 @app.on_event("startup")
 async def startup_event() -> None:
+    """
+    FastAPI Startup event - inits db and store it into app state
+    """
     # setup db
     db.create_empty_db()
     app.state.db_session = db.session
@@ -35,12 +38,17 @@ async def startup_event() -> None:
 
 @app.on_event("shutdown")
 async def shutdown_event() -> None:
+    """FastAPI shutdown event - removes db session"""
     app.state.db_session.remove()
 
 
 @app.on_event("startup")
 @repeat_every(seconds=60)
 async def periodic_article_fetcher_event() -> None:
+    """
+    Article Fetcher - Periodic function that runs every 1 minute
+    Scrape the news from the given News Servers and stores their headers and urls into DB
+    """
     logger.debug("fetching news..")
     for sc in scraper.SCRAPERS:
         scraper.scrape_news(sc, app.state.db_session())
