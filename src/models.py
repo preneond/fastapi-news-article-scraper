@@ -18,6 +18,6 @@ class ArticleOrm(Base):  # type: ignore
 
     def __str__(self) -> str:
         """
-        @return: object representation as string
+        :return: object representation as string
         """
         return f"Article(id={self.id}, header={self.header}, url={self.url})"

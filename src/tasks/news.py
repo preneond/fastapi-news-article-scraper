@@ -62,6 +62,7 @@ class IdnesScraper(NewsScraper):
 
     def get_headers(self) -> List[Article]:
         response = requests.get(self.news_url)
+
         bs_html_parser = bs(response.text, "html.parser")
         bs_header_arr = bs_html_parser.find_all(
             name=self.html_parser_find_name, attrs=self.html_parser_find_attributes
@@ -71,11 +72,11 @@ class IdnesScraper(NewsScraper):
             for header in bs_header_arr
             if header.parent.get("score-type") == "Article"
         ]
-        article_arr = [
+
+        return [
             Article(header=header.get_text(), url=self.get_article_url(header))
             for header in bs_header_arr
         ]
-        return article_arr
 
 
 class IhnedScraper(NewsScraper):
@@ -97,15 +98,16 @@ class IhnedScraper(NewsScraper):
 
     def get_headers(self) -> List[Article]:
         response = requests.get(self.news_url)
+
         bs_html_parser = bs(response.text, "html.parser")
         bs_header_arr = bs_html_parser.find_all(
             name=self.html_parser_find_name, attrs=self.html_parser_find_attributes
         )
-        article_arr = [
+
+        return [
             Article(header=header.get_text(), url=self.get_article_url(header))
             for header in bs_header_arr
         ]
-        return article_arr
 
 
 class BbcScraper(NewsScraper):
@@ -127,12 +129,13 @@ class BbcScraper(NewsScraper):
 
     def get_headers(self) -> List[Article]:
         response = requests.get(self.news_url)
+
         bs_html_parser = bs(response.text, "html.parser")
         bs_header_arr = bs_html_parser.find_all(
             name=self.html_parser_find_name, attrs=self.html_parser_find_attributes
         )
-        article_arr = [
+
+        return [
             Article(header=header.get_text(), url=self.get_article_url(header))
             for header in bs_header_arr
         ]
-        return article_arr

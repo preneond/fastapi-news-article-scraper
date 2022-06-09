@@ -1,13 +1,12 @@
 import logging
 
 import uvicorn
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi_utils.tasks import repeat_every
 from sqlalchemy.orm import Session
 from starlette import status
-from starlette.requests import Request
 
 from src import db, responses, schemas
 from src.config.settings import get_settings
@@ -52,13 +51,18 @@ async def find_articles(
     data_in: FindArticleRequest, db_session: Session = Depends(get_db_session)
 ) -> JSONResponse:
     """
-    If query in request.json is not valid, returns HTTP 422.
+    Searches for articles by keywords
+    If query in request is not valid, returns HTTP 422.
     If query is valid, returns result with articles matching given keywords.
+
+    :param data_in: keywords to filter the articles by
+    :param db_session: DB session instance
+    :returns filtered articles by given keywords
     """
     return responses.success_response(
         {
             "articles": [
-                {"text": i.header, "url": i.url}
+                schemas.ArticleItemResponse(text=i.header, url=i.url)
                 for i in get_articles_with_keywords(data_in.keywords, db_session)
             ]
         }
@@ -69,9 +73,9 @@ async def find_articles(
 @app.exception_handler(RequestValidationError)
 @app.exception_handler(Exception)
 async def exception_handler(request: Request, exc: Exception) -> JSONResponse:
-    logger.error(f"{exc}")
+    logger.error(f"App exception:: {exc}")
     return responses.error_response(
-        errors=str(exc), status_code=status.HTTP_400_BAD_REQUEST
+        errors=str(exc), status_code=status.HTTP_422_UNPROCESSABLE_ENTITY
     )
 
 
